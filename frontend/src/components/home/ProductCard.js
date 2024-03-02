@@ -2,6 +2,10 @@ import Rating from "react-rating-stars-component";
 import { Link } from "react-router-dom";
 import "./Home.css";
 
+function handleClick() {
+  window.scrollTo(0, 0);
+}
+
 function ProductCard({ product }) {
   const options = {
     edit: false,
@@ -11,9 +15,13 @@ function ProductCard({ product }) {
     value: product.ratings,
     isHalf: true,
   };
-  
+
   return (
-    <Link className="productCard" to={`/product/${product._id}`}>
+    <Link
+      className="productCard"
+      to={`/product/${product._id}`}
+      onClick={handleClick}
+    >
       <img src={product.images[0].url} alt={product.name} />
       <p>{product.name}</p>
       <div>
