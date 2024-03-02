@@ -1,6 +1,11 @@
+import { useEffect } from "react";
 import { CgMouse } from "react-icons/cg";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../../actions/productActions.js";
+import MetaData from "../layout/MetaData.js";
 import "./Home.css";
 import ProductCard from "./ProductCard.js";
+import Loader from "../layout/loader/Loader.js";
 
 const product = {
   name: "Blue Tshirt",
@@ -10,33 +15,46 @@ const product = {
 };
 
 function Home() {
+  const dispatch = useDispatch();
+  const { isLoading, error, products, productsCount } = useSelector(
+    (state) => state.products
+  );
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
+
   return (
     <>
-      <div className="banner">
-        <p>Welcome to Ecommerce</p>
-        <h1>FIND AMAZING PRODUCTS BELOW</h1>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <MetaData title="E-COMMERCE" />
 
-        <a href="#homeHeading">
-          <button>
-            Scroll <CgMouse />
-          </button>
-        </a>
-      </div>
+          <div className="banner">
+            <p>Welcome to Ecommerce</p>
+            <h1>FIND AMAZING PRODUCTS BELOW</h1>
 
-      <h2 className="homeHeading" id="homeHeading">
-        Featured Products
-      </h2>
+            <a href="#homeHeading">
+              <button>
+                Scroll <CgMouse />
+              </button>
+            </a>
+          </div>
 
-      <div className="container" id="container">
-        <ProductCard key={product._id} product={product} />
-        <ProductCard key={product._id} product={product} />
-        <ProductCard key={product._id} product={product} />
-        <ProductCard key={product._id} product={product} />
-        <ProductCard key={product._id} product={product} />
-        <ProductCard key={product._id} product={product} />
-        <ProductCard key={product._id} product={product} />
-        <ProductCard key={product._id} product={product} />
-      </div>
+          <h2 className="homeHeading" id="homeHeading">
+            Featured Products
+          </h2>
+
+          <div className="container" id="container">
+            {products &&
+              products.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+          </div>
+        </>
+      )}
     </>
   );
 }
