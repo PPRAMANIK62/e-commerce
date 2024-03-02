@@ -1,11 +1,12 @@
 import { useEffect } from "react";
+import { useAlert } from "react-alert";
 import { CgMouse } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../actions/productActions.js";
 import MetaData from "../layout/MetaData.js";
+import Loader from "../layout/loader/Loader.js";
 import "./Home.css";
 import ProductCard from "./ProductCard.js";
-import Loader from "../layout/loader/Loader.js";
 
 const product = {
   name: "Blue Tshirt",
@@ -15,14 +16,18 @@ const product = {
 };
 
 function Home() {
+  const alert = useAlert();
   const dispatch = useDispatch();
   const { isLoading, error, products, productsCount } = useSelector(
     (state) => state.products
   );
 
   useEffect(() => {
+    if (error) {
+      return alert.error(error);
+    }
     dispatch(getProducts());
-  }, [dispatch]);
+  }, [dispatch, error, alert]);
 
   return (
     <>
