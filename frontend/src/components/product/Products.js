@@ -1,12 +1,14 @@
 import { Slider, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useAlert } from "react-alert";
 import Pagination from "react-js-pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getProducts } from "../../actions/productActions";
+import { clearErrors, getProducts } from "../../actions/productActions";
 import ProductCard from "../home/ProductCard";
 import Loader from "../layout/loader/Loader";
 import "./Products.css";
+import MetaData from "../layout/MetaData";
 
 const categories = [
   "laptop",
@@ -20,6 +22,7 @@ const categories = [
 
 function Products() {
   const dispatch = useDispatch();
+  const alert = useAlert();
   const { keyword } = useParams();
   const {
     isLoading,
@@ -40,13 +43,16 @@ function Products() {
   };
 
   const setCurrentPageNo = (e) => {
-    // console.log(e)
     setCurrentPage(e);
   };
 
   useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
     dispatch(getProducts(keyword, currentPage, price, category, ratings));
-  }, [dispatch, keyword, currentPage, price, category, ratings]);
+  }, [dispatch, keyword, currentPage, price, category, ratings, alert, error]);
 
   let count = filteredProductsCount;
 
@@ -56,6 +62,7 @@ function Products() {
         <Loader />
       ) : (
         <>
+          <MetaData title="PRODUCTS -- ECOMMERCE" />
           <h2 className="productsHeading">Products</h2>
 
           <div className="products">

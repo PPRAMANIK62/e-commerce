@@ -8,6 +8,7 @@ import { clearErrors, getProductDetails } from "../../actions/productActions";
 import Loader from "../layout/loader/Loader";
 import "./ProductDetails.css";
 import ReviewCard from "./ReviewCard.js";
+import MetaData from "../layout/MetaData.js";
 
 function ProductDetails({ match }) {
   const { id } = useParams();
@@ -68,6 +69,7 @@ function ProductDetails({ match }) {
         <Loader />
       ) : (
         <>
+          <MetaData title={`${product.name} -- ECOMMERCE`} />
           <div className="ProductDetails">
             <div>
               <Carousel className="CarouselImage">

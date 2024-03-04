@@ -8,17 +8,10 @@ import Loader from "../layout/loader/Loader.js";
 import "./Home.css";
 import ProductCard from "./ProductCard.js";
 
-const product = {
-  name: "Blue Tshirt",
-  images: [{ url: "https://i.ibb.co/DRST11n/1.webp" }],
-  price: "2000",
-  _id: "Purbayan",
-};
-
 function Home() {
   const alert = useAlert();
   const dispatch = useDispatch();
-  const { isLoading, error, products, productsCount } = useSelector(
+  const { isLoading, error, products } = useSelector(
     (state) => state.products
   );
 
