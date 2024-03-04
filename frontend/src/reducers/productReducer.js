@@ -12,6 +12,7 @@ const initialStateProduct = {
   isLoading: false,
   products: [],
   productsCount: 0,
+  resultPerPage: null,
   error: null,
 };
 
@@ -33,7 +34,9 @@ export function productReducer(state = initialStateProduct, action) {
         ...state,
         isLoading: false,
         products: action.payload.products,
-        productsCount: action.payload.productsCount,
+        productsCount: action.payload.productCount,
+        resultPerPage: action.payload.resultPerPage,
+        filteredProductsCount: action.payload.filteredProductsCount,
       };
     case ALL_PRODUCT_FAIL:
       return {
